@@ -12,7 +12,7 @@ def open_file(filename, varname='temps'):
     return(filekeys, t, latitude, longitude, temp)
 
 def get_inputs_outputs(output_filename = '../../emulator_files/AllTemps.nc', 
-                       input_filename = '../../design/design_matrix_1-40.csv',
+                       input_filename = '../../design/design_matrix_1-80.csv',
                        ctrl = None, return_ctrl = False, varname='temps'):
     print("Getting inputs and outputs")
     #### Outputs ####
@@ -36,8 +36,10 @@ def get_inputs_outputs(output_filename = '../../emulator_files/AllTemps.nc',
         em_keys = sorted_keys
         em_temps = temps
 
+    Y =  temps - ctrl
+
     # Get outputs by minusing the ctrl run
-    Y = em_temps - ctrl
+    #Y = em_temps - ctrl
 
     #### Inputs ####
     design_matrix = (np.genfromtxt(input_filename, delimiter=',',
@@ -55,13 +57,13 @@ def get_train_test():
     X, Y, latitude, longitude, ctrl = get_inputs_outputs(output_filename = 
                                                    '../../emulator_files/AllTemps1-80.nc', 
                                                    input_filename = 
-                                                   '../../design/design_matrix_1-80.csv', 
+                                                   '../../design/design_matrix_1-86.csv', 
                                                    return_ctrl = True)
 
     X_test, Y_test, _, _ = get_inputs_outputs(output_filename =
                                               '../../emulator_files/TestTemps.nc',
                                               input_filename =  
-                                              '../../design/test_matrix_1-10.csv',
+                                              '../../design/test_matrix_1-20.csv',
                                               ctrl = ctrl)
 
     return(X, Y, X_test, Y_test, latitude, longitude)
