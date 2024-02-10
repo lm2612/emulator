@@ -2,6 +2,9 @@
 Emulator built to predict short-term temperature response of the HadGEM3 global climate model to 9 different emission inputs. 
 We ran HadGEM3 with a Latin Hybercube design across to emissions inputs to generate a training dataset of size 80 and a test dataset of size 18.
 
+### Dependencies
+This code uses `GPy`, developed and maintained by Sheffield Machine Learning group (https://github.com/SheffieldML/GPy). You will also need `scikit-learn`, `matplotlib`, `cartopy` libraries. See full list of packages required in the conda environment file `environment.yml`.
+
 ### Quickstart
 Run the jupyter notebooks in `notebooks` to see a demo of how the code works.
 
