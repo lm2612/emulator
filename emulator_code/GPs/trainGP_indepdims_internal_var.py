@@ -25,7 +25,7 @@ from DefineRegions import *
 ### DEFINE RANDOM SEED ####
 random_seed = 1
 
-output_filename = '../../emulator_files/AllTemps1-80.nc'
+output_filename = '../../emulator_files/AllTemps1-86.nc'
 nyears = 5
 filekeys, t, latitude, longitude, temp = open_file(output_filename, 'temps')
 sorted_inds = np.argsort(filekeys)
@@ -85,6 +85,16 @@ y_internal = np.var(ctrl_scaled, axis=0)
 
 
 def predict_function(i, y, ypred, sd, sd_gp, X, Xtest):
+ """ Build GP emulator for grid point i and predict at new unseen Xtest
+       Args: i (int) points to index we are building emulator for 
+             y (np array) training data outputs.
+             ypred (multiprocessing array) mp array to be filled with predictions from emulator for new unseen Xtest
+             sd (multiprocessing array) mp array to be filled with 1 s.d. frmo emulator
+             sd_gp (multiprocessing array) mp array to be filled with 1 s.d. from emulator (i.e. same as above, only different when we prespecify the internal variability).
+             X (np array) training data inputs
+             Xtest(np array) new unseen inputs we want to predict.
+            """
+
     y_i = y[:, i]
     N = len(y_i)
     y_i = y_i.reshape((N, 1))
@@ -97,7 +107,7 @@ def predict_function(i, y, ypred, sd, sd_gp, X, Xtest):
     kern2.variances = [0.63, 0.03, 0.01, 0.001, 0.007, 0.006, 0.003, 0.037, 0.015]
     kern = kern1 + kern2 
     m = GPy.models.GPRegression(X, y_i, kern)
-    m.likelihood.variance.fix(y_internal[i])                 # fix internal variability as variance term
+    m.likelihood.variance.fix(y_internal[i])                 # fix internal variability as variance term!!
     m.optimize('bfgs', max_iters=1000)                       # optimise lengthscales/variances
 
     ### PREDICT ####
@@ -138,7 +148,7 @@ if __name__ == '__main__':
     Ntest= N
 
     for i in range(k):
-        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest]
+        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest] 
         sd[:, i] = sd_arr[(i*Ntest):(i+1)*Ntest] 
         sd_gp[:,i] = sd_gp_arr[(i*Ntest):(i+1)*Ntest]
 
