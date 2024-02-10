@@ -32,7 +32,7 @@ X, Y, Xtest, Ytest, latitude, longitude = get_train_test()
 
 nlat, nlon = len(latitude), len(longitude)
 
-output_filename = '../../emulator_files/AllTemps1-80.nc'
+output_filename = '../../emulator_files/AllTemps1-86.nc'
 nyears = 5
 filekeys, t, latitude, longitude, temp = open_file(output_filename, 'temps')
 sorted_inds = np.argsort(filekeys)
@@ -162,7 +162,7 @@ if __name__ == '__main__':
     Ntest= N
 
     for i in range(k):
-        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest] #np.frombuffer(ypred_arr[i:(i+N)])
+        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest]
         sd[:, i] = sd_arr[(i*Ntest):(i+1)*Ntest] 
 
     # un-scale

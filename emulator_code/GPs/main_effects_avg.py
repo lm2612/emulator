@@ -69,7 +69,7 @@ p = X.shape[1]
 # With Gaussian distribution with preset s.d. [not uniform distribution]
 min_vals = [CO2_ppm_MMR(282) , CH4_ppb_MMR(248) ,  0, 0, 0, 0, 0, 0, 0]
 base_vals = [CO2_ppm_MMR(410), CH4_ppb_MMR(1862),  1, 1, 1, 1, 1, 1, 1]
-max_vals = [CO2_ppm_MMR(834), CH4_ppb_MMR(3238), 5, 3, 2, 3, 3, 7, 2]
+max_vals = [CO2_ppm_MMR(834), CH4_ppb_MMR(3238), 10, 6, 4, 6, 6, 14, 4]
 sigma_vals = [CO2_ppm_MMR(50), CH4_ppb_MMR(100), .5, .5, .5, .5, .5, .5, .5]
 
 NFuncs = 100
@@ -124,14 +124,20 @@ def predict_function(i, y, ypred, sd, sd_gp, X, Xtest):
     y_i = y_i.reshape((N, 1))
 
     ### BUILD MODEL ###
+    # kernel
     kern1 = GPy.kern.RBF(p, ARD=True)
     kern1.variance = 1e-5
-    kern1.lengthscale = [0.89, 0.83, 0.94, 1.11, 0.37, 1., 0.96, 0.93, 0.75]
+    kern1.lengthscale = [0.89, 0.83, 0.94, 1.11, 0.37, 1., 0.96, 0.93, 0.75]   # initialize w/ good starting point
+
     kern2 = GPy.kern.Linear(p,ARD=True)
     kern2.variances = [0.63, 0.03, 0.01, 0.001, 0.007, 0.006, 0.003, 0.037, 0.015]
+
     kern = kern1 + kern2
+    
+    # model
     m = GPy.models.GPRegression(X, y_i, kern)
-    m.likelihood.variance.fix(y_internal[i])
+    m.likelihood.variance.fix(y_internal[i])  # fix variance with internal variability
+
     m.optimize('bfgs', max_iters=1000)
 
     ### PREDICT ####
@@ -171,7 +177,7 @@ if __name__ == '__main__':
     Ntest= N
 
     for i in range(k):
-        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest] #np.frombuffer(ypred_arr[i:(i+N)])
+        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest] 
         sd[:, i] = sd_arr[(i*Ntest):(i+1)*Ntest] 
         sd_gp[:,i] = sd_gp_arr[(i*Ntest):(i+1)*Ntest]
 
