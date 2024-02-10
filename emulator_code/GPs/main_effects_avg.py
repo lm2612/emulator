@@ -1,3 +1,5 @@
+### This script calculates the main effects of the emulator
+
 import sys
 import os
 home = os.getenv("HOME")
@@ -24,7 +26,7 @@ from conv_MMR_ppm import *
 ### DEFINE RANDOM SEED ####
 random_seed = 1
 
-output_filename = '../../emulator_files/AllTemps1-80.nc'
+output_filename = '../../emulator_files/AllTemps1-86.nc'
 nyears = 5
 filekeys, t, latitude, longitude, temp = open_file(output_filename, 'temps')
 sorted_inds = np.argsort(filekeys)
@@ -36,8 +38,7 @@ sorted_temps = temp[sorted_inds, :nyears, :, :]
 average_temps = np.average(sorted_temps, axis=1)
 temps = average_temps
 
-
-# Internal variability
+# Calculate internal variability: we can also include the additional 8 control runs
 ctrl_keys = sorted_keys[0:6]
 ctrl_temps = temps[0:6, :, :]
 output_filename = '../../emulator_files/ControlTemps.nc'

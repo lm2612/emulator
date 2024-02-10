@@ -44,9 +44,9 @@ Variables:
 * `temps`: surface temperature in Kelvin
 
 ## Directory Structure
-
+You will need to download the training and test outputs from the zenodo repository (10.5281/zenodo.6209322).
 * `design/` contains the training and test inputs as csv files.
-* `emulator_files/` contains the training and test outputs as nc files.
+* `emulator_files/` contains the training and test outputs as nc files (not in this repo, but download from zenodo).
 * `emulator_output/` contains outputs from the emulator, generated when you run the code. 
 * `emulator_code/` contains all the code necessary to reproduce results
 
