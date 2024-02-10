@@ -1,3 +1,4 @@
+### Train GP emulator and test of SSP scenarios
 import sys
 import os
 home = os.getenv("HOME")
@@ -23,7 +24,7 @@ from DefineRegions import *
 ### DEFINE RANDOM SEED ####
 random_seed = 1
 
-output_filename = '../../emulator_files/AllTemps1-80.nc'
+output_filename = '../../emulator_files/AllTemps1-86.nc'
 nyears = 5
 filekeys, t, latitude, longitude, temp = open_file(output_filename, 'temps')
 sorted_inds = np.argsort(filekeys)
@@ -75,8 +76,6 @@ design_matrix = (np.genfromtxt(input_filename, delimiter=',',
 Xtest = design_matrix
 
 
-#Y = Y[:,0:10, 0:5]
-#Ytest = Ytest[:, 0:10, 0:5]
 ### PREPROCESS X ####
 scalerX = preprocessing.StandardScaler()
 scalerX.fit(X)
@@ -166,7 +165,7 @@ if __name__ == '__main__':
     Ntest= N
 
     for i in range(k):
-        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest] #np.frombuffer(ypred_arr[i:(i+N)])
+        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest] 
         sd[:, i] = sd_arr[(i*Ntest):(i+1)*Ntest] 
         sd_gp[:,i] = sd_gp_arr[(i*Ntest):(i+1)*Ntest]
 
