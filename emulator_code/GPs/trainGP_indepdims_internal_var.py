@@ -1,3 +1,5 @@
+### This file trains a Gaussian process that uses the internal variability to fix the GP error
+# It trains an independent GP per grid cell.
 import sys
 import os
 home = os.getenv("HOME")
@@ -136,7 +138,7 @@ if __name__ == '__main__':
     Ntest= N
 
     for i in range(k):
-        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest] #np.frombuffer(ypred_arr[i:(i+N)])
+        ypred[:, i] = ypred_arr[(i*Ntest):(i+1)*Ntest]
         sd[:, i] = sd_arr[(i*Ntest):(i+1)*Ntest] 
         sd_gp[:,i] = sd_gp_arr[(i*Ntest):(i+1)*Ntest]
 

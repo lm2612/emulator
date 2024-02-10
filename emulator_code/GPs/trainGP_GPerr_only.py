@@ -1,5 +1,5 @@
 ### This file trains a Gaussian process without using the internal variability to fix the 
-# GP error. 
+# GP error. It trains an independent GP per grid cell. 
 import sys
 import os
 home = os.getenv("HOME")
