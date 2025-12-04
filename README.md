@@ -80,4 +80,5 @@ regional_mean = np.average(var, weights = area*region_grid)
 
 ## Authors
 All code was written by Laura Mansfield, during PhD at University of Reading with collaborators at Imperial College London. 
-Please contact me with any questions: lauraman@stanford.edu
+Please create an issue for any questions.
+
